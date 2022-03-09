@@ -1,0 +1,27 @@
+version: '3.3'
+networks:
+  VLANID:          #VLAN10
+    external: true
+
+
+services:
+    gitlab.exmaple.com:
+        environment:
+            - TZ=Asia/Kolkata
+            - GITLAB_ROOT_PASSWORD=password
+        container_name: gitlab.exmaple.com
+        image: 'gitlab/gitlab-ce'
+        hostname: gitlab.exmaple.com
+        privileged: true
+        restart: always
+        volumes:
+            - './git/config:/etc/gitlab'        #volumes for config on host
+            - './git/logs:/var/log/gitlab'      #volumes for log on host
+            - './git/data:/var/opt/gitlab'      #volumes for data on host
+        ports:
+            - '80:80'
+            - '443:443'
+            - '22:22'
+        networks:
+            VLANID:                             #VLAN10
+                ipv4_address: 192.168.1.1       #IP address of container
