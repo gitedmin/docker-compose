@@ -1,0 +1,49 @@
+version: "3.3"
+services:
+#1
+  containername:
+    container_name: containername
+    image: docker/image
+    ports:
+      - "1234:4321"
+    restart: always
+    environment:
+        - MAIL_FROM=${MAIL_FROM}
+        - COMMON_SP_SERVICE=${COMMON_SP_SERVICE}
+        - AUTHORIZATION=${AUTHORIZATION}
+        - APPLICATION_Id=${APPLICATION_Id}
+        - SYSLOGSERVER=${SYSLOGSERVER}
+        - ENVIRONMENT=${ENVIRONMENT}
+        - MAIL_PORT=${MAIL_PORT}
+        - MAIL_HOST=${MAIL_HOST}
+        - APP_ID=${APP_ID}
+        - T_ID=${T_ID}
+
+# env variable must locate on . with name env
+# MAIL_FROM=home@abc.com
+# COMMON_SP_SERVICE=https://abc.net/data/_get
+# AUTHORIZATION= dkdkdjfdkfjdg+==
+# APPLICATION_Id=allow-dev
+# SYSLOGSERVER=192.168.1.10
+# ENVIRONMENT=uat
+# MAIL_PORT=25
+# MAIL_HOST=mail.abc.com
+# APP_ID=23923823782
+# T_ID=2328738278372
+
+#2        
+  logspout:
+    image: gliderlabs/logspout
+    container_name: logspout
+    volumes:
+       -  /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    privileged: true
+    command: syslog://${SYSLOGSERVER}:514
+#3
+containername2:
+    image: docker/image2
+    container_name: containername2
+    ports:
+      - "1235:5321"
+    restart: always
