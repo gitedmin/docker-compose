@@ -1,0 +1,19 @@
+version: '3.3'
+
+networks:
+  VLANID:                                        #example VLAN10 
+    external: true                               #
+
+services:
+    duruu:
+        environment:
+            - TZ=Asia/Kolkata
+            - GLASSFISH_PASS=password
+        container_name: maintserver
+        image: docker.io/duruu/glassfish3
+        hostname: maintserver
+        privileged: true
+        restart: always
+        networks:
+            VLANID:                             #example VLAN10
+                ipv4_address: 192.168.1.1       #IP address for container
