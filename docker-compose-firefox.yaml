@@ -1,0 +1,13 @@
+#Firefox in Container
+version: '3'
+
+services:
+  firefox:
+    image: jlesage/firefox
+    container_name: firefox
+    environment:
+      - VNC_PASSWORD=yourpassword
+    ports:
+      - "7777:5800"
+    volumes:
+      - "./firefox-box:/config:rw"
