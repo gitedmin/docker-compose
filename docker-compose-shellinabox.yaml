@@ -1,0 +1,10 @@
+version: '3'
+services:
+  shelled:
+    build:
+      context: .
+      dockerfile: dockerfile-shellinabox
+    container_name: shelledx
+    ports:
+      - "6666:4200"
+      - "8888:22"
