@@ -1,0 +1,22 @@
+FROM centos:7
+
+# Prerequisites
+RUN yum -y install epel-release && \
+    yum -y install shellinabox && \
+    yum -y install wget curl git openssh-server openssh-clients vim openssl net-tools sudo expect
+
+# Create a non-root user
+ARG USER_NAME
+RUN useradd -m -s /bin/bash $USER_NAME && \
+    echo "$USER_NAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER_NAME
+
+# Set default user
+USER root
+
+# Expose ports for SSH (22) and Shell In A Box (4200)
+EXPOSE 22
+EXPOSE 4200
+
+# Start SSH service and Shell In A Box daemon
+CMD ["/bin/bash", "-c", "/usr/sbin/sshd -D & /usr/sbin/shellinaboxd -t -s /:LOGIN"]
+
